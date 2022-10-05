@@ -4,9 +4,12 @@ import { useWeb3React } from "@web3-react/core";
 
 import { InjectedConnector } from "@web3-react/injected-connector";
 import Web3 from "web3";
+import value from "./EthAPI";
 
 const ConnectWallet = () => {
-  const [balance, setBalance] = useState();
+  const [weibalance, setWeiBalance] = useState();
+  const [ETHbalance, setETHBalance] = useState();
+  const [USDTValue, setUSDTValue] = useState();
 
   const injectedConnector = new InjectedConnector({
     supportedChainIds: [1, 3, 4, 5, 42],
@@ -19,26 +22,35 @@ const ConnectWallet = () => {
     activate(injectedConnector);
   };
 
-  console.log(balance);
-
   const disConnect = () => {
     deactivate(injectedConnector);
-    setBalance();
+    setWeiBalance();
+    setETHBalance();
+    setUSDTValue();
   };
 
-  const getEthBalance = async () => {
-    setBalance(
+  const getBalance = async () => {
+    setWeiBalance(
       parseFloat(web3.utils.fromWei(await web3.eth.getBalance(account)))
     );
 
-    return balance;
+    let wei = await web3.eth.getBalance(account);
+    setETHBalance(parseFloat(web3.utils.fromWei(wei, "ether")));
+  };
+  const getUSDTBalance = async () => {
+    let USDT = await value();
+    console.log(USDT);
+
+    setUSDTValue(ETHbalance * USDT);
   };
 
   return (
     <div>
       <div>ChainID: {chainId}</div>
       <div>Account: {account}</div>
-      <div>Balance: {balance}</div>
+      <div>Wei Balance: {weibalance}</div>
+      <div>Ether Balance: {ETHbalance}</div>
+      <div>USDT Balance: {USDTValue}</div>
       {active ? (
         <div>Connection Successfull! ✅</div>
       ) : (
@@ -49,8 +61,12 @@ const ConnectWallet = () => {
       <div>
         <button onClick={disConnect}>Disconnect</button>
       </div>
+
       <div>
-        <button onClick={getEthBalance}>getBalance</button>
+        <button onClick={getBalance}>Get Balance</button>
+      </div>
+      <div>
+        <button onClick={getUSDTBalance}>Get USDT Balance</button>
       </div>
     </div>
   );
