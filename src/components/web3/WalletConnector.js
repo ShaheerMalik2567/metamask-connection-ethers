@@ -30,9 +30,7 @@ const ConnectWallet = () => {
   };
 
   const getBalance = async () => {
-    setWeiBalance(
-      parseFloat(web3.utils.fromWei(await web3.eth.getBalance(account)))
-    );
+    setWeiBalance(parseFloat(await web3.eth.getBalance(account)));
 
     let wei = await web3.eth.getBalance(account);
     setETHBalance(parseFloat(web3.utils.fromWei(wei, "ether")));
