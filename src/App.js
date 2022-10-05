@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import styles from "./App.module.css";
-import MetamaskConnect from "./components/Connection";
+import MetamaskConnect from "./components/ethers/Connection";
+import ConnectWallet from "./components/web3/WalletConnector";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         </a>
         <br />
         <div>
-          <MetamaskConnect />
+          {/* <MetamaskConnect /> */}
+          <ConnectWallet />
         </div>
       </header>
     </div>
