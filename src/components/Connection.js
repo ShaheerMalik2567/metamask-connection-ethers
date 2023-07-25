@@ -3,10 +3,10 @@ import { ethers } from "ethers";
 import { Card } from "react-bootstrap";
 
 const MetamaskConnect = () => {
-  const [data, setdata] = useState({
-    address: "",
-    Balance: null,
-  });
+
+
+  const [address, setAddress] = useState("");
+  const [balance, setBalance] = useState();
 
   // Button handler button for handling a
   // request event for metamask
@@ -33,22 +33,23 @@ const MetamaskConnect = () => {
       })
       .then((balance) => {
         // Setting balance
-        setdata({
-          Balance: ethers.utils.formatEther(balance),
-        });
+    setBalance(
+        ethers.utils.formatEther(balance),
+     )
       });
   };
 
   // Function for getting handling all events
   const accountChangeHandler = (account) => {
     // Setting an address data
-    setdata({
-      address: account,
-    });
 
+
+    setAddress(account);
     // Setting a balance
     getbalance(account);
   };
+
+
   return (
     <div className="App">
       {/* Calling all values which we 
@@ -58,11 +59,11 @@ const MetamaskConnect = () => {
         <Card.Body>
           <Card.Text>
             <strong>Address: </strong>
-            {data.address}
+            {address}
           </Card.Text>
           <Card.Text>
             <strong>Balance: </strong>
-            {data.Balance}
+            {balance}
           </Card.Text>
           <button className="button" onClick={btnhandler} variant="primary">
             Connect to wallet
